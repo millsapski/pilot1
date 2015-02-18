@@ -3,6 +3,7 @@
 #include "i2c.h"
 #include "EEPROM.h"
 #include "uart.h"
+#include "PWMOut.h"
 
 
 #define I2C_ADDRESS        0x30F
@@ -52,24 +53,38 @@ int main(void)
   /* Configure the system clock to 168 Mhz */
   configure_system_clock();
 
-  if(uart_init())
-  	  BSP_LED_On(LED3);
-    else
-  	  BSP_LED_On(LED6);
-
-  if(i2c_init()){
-	  BSP_LED_On(LED3);
-  }else{
-	  BSP_LED_On(LED6);
-	  while(1){
-
-	  }
-  }
   i2c_mode_wait=1;
 
 
 
   uart2_print(&"ReadyV1.3\n");
+  int resp;
+  PWMOut_init();
+  PWMOut_start();
+  PWMOut_setPulseWidth(2, 1000);
+  /*BSP_LED_On(LED3);
+  if(PWMOut_initGPIO()==HAL_OK){
+	  BSP_LED_Off(LED3);
+
+  }
+  BSP_LED_On(LED5);
+  if(PWMOut_initTimer()==HAL_OK){
+	  BSP_LED_Off(LED5);
+
+  }
+  BSP_LED_On(LED6);
+  if(PWMOut_initCCP()==HAL_OK){
+	  BSP_LED_Off(LED6);
+
+  }
+
+  BSP_LED_On(LED4);
+  if(PWMOut_start()==HAL_OK){
+	  BSP_LED_Off(LED4);
+
+  }*/
+
+  return 0;
   /* Configure User Button */
   BSP_PB_Init(BUTTON_KEY, BUTTON_MODE_GPIO);
 
